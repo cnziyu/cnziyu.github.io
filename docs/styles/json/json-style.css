@@ -1,0 +1,34 @@
+
+.json_key {
+    color: #92278f;
+    font-weight: bold;
+}
+
+.json_string {
+    color: #3ab54a;
+    font-weight: bold;
+}
+
+.json_number {
+    color: #25aae2;
+    font-weight: bold;
+}
+
+.json_boolean {
+    color: #f98280;
+    font-weight: bold;
+}
+
+.json_null {
+    color: #f1592a;
+    font-weight: bold;
+}
+
+a, p, span, button {
+    font-size: 14px;
+}
+
+.tool a {
+    padding: 0px 8px;
+    color: #999;
+}

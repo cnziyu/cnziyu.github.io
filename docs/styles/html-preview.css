@@ -1,0 +1,246 @@
+.html-preview {
+    padding-top: 60px;
+    min-height: calc(100vh - 120px);
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-wrapper {
+    margin: 0 auto;
+    width: 95%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
+
+.toolbar {
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 20px;
+    z-index: 100;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.toolbar h1 {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.editor-container {
+    flex: 1 1 auto;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    margin-top: 3px;
+    min-height: calc(100vh - 250px);
+}
+
+.editor-pane {
+    flex: 1 0 0%;
+    min-width: 10%;
+    max-width: 90%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+    position: relative;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+#html-input {
+    flex: 1;
+    width: 98%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    font-family: monospace;
+    resize: none;
+    min-height: 96%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#html-output {
+    flex: 1;
+    width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    min-height: 96%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* 最大化模式 - 内容区域占满侧边栏右侧空间 */
+body.maximized {
+    overflow: hidden;
+}
+
+body.maximized .html-preview {
+    padding-top: 0;
+    min-height: 100vh;
+    height: 100vh;
+    overflow: hidden;
+}
+
+body.maximized .editor-wrapper {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+body.maximized .toolbar {
+    top: 0;
+}
+
+body.maximized .editor-container {
+    min-height: calc(100vh - 60px);
+    height: calc(100vh - 60px);
+    overflow: hidden;
+}
+
+.navbar {
+    margin-bottom: 0;
+}
+
+body.dark-mode .toolbar {
+    border-bottom-color: #444;
+}
+
+body.dark-mode #html-input,
+body.dark-mode #html-output {
+    border-color: #444;
+    background-color: #1e1e1e;
+    color: #fff;
+}
+
+.dragbar {
+    width: 4px;
+    background-color: #ddd;
+    cursor: col-resize;
+    position: relative;
+    z-index: 10;
+    transition: background-color 0.3s;
+    flex: 0 0 4px;
+}
+
+.dragbar:hover {
+    background-color: #007AFF;
+}
+
+body.dark-mode .dragbar:hover {
+    background-color: #0A84FF;
+}
+
+.buttons button {
+    margin: 0 5px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #007AFF;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.buttons button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+body.dark-mode .buttons button {
+    background-color: #0A84FF;
+}
+
+body.dark-mode .buttons button:hover {
+    background-color: #0056b3;
+}
+
+footer {
+    position: relative;
+    width: 100%;
+    padding: 15px 0;
+    background-color: inherit;
+    text-align: center;
+    border-top: 1px solid #ddd;
+}
+
+#capture-preview-btn, #copy-preview-btn {
+    background-color: #28a745;
+}
+
+#capture-preview-btn:hover, #copy-preview-btn:hover {
+    background-color: #218838;
+}
+
+/* 添加复制成功的动画效果 */
+@keyframes copySuccess {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* 添加toolbar切换按钮样式 */
+.toolbar-toggle {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
+
+.toolbar-toggle button {
+    background: rgba(0, 122, 255, 0.9);
+    border: none;
+    border-radius: 0 0 5px 5px;
+    color: white;
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.toolbar-toggle button:hover {
+    background: rgba(0, 122, 255, 1);
+    transform: translateY(2px);
+}
+
+/* 最大化状态下的样式 */
+.maximized .toolbar-toggle {
+    display: block;
+}
+
+/* 添加toolbar过渡动画 */
+.toolbar {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* toolbar收起状态 */
+.toolbar-hidden .toolbar {
+    transform: translateY(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* 调整编辑器容器位置 */
+.toolbar-hidden .editor-container {
+    height: 100vh !important;
+    margin-top: 0 !important;
+}
+
+/* 暗色模式适配 */
+body.dark-mode .toolbar-toggle button {
+    background: rgba(10, 132, 255, 0.9);
+}
+
+body.dark-mode .toolbar-toggle button:hover {
+    background: rgba(10, 132, 255, 1);
+} 

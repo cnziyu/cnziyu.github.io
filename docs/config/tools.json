@@ -1,0 +1,124 @@
+{
+  "siteName": "工具导航",
+  "categories": [
+    {
+      "name": "开发工具",
+      "icon": "fa-code",
+      "tools": [
+        {
+          "name": "JSON 格式化",
+          "path": "json_formatter.html",
+          "icon": "fa-brackets-curly"
+        },
+        {
+          "name": "正则测试器",
+          "path": "regex_tester.html",
+          "icon": "fa-asterisk"
+        },
+        {
+          "name": "加密解密",
+          "path": "crypto_tool.html",
+          "icon": "fa-lock"
+        },
+        {
+          "name": "Base64 转换",
+          "path": "base64convert.html",
+          "icon": "fa-exchange-alt"
+        },
+        {
+          "name": "时间戳转换",
+          "path": "timestamp_converter.html",
+          "icon": "fa-clock"
+        },
+        {
+          "name": "UUID 生成",
+          "path": "uuid_generation.html",
+          "icon": "fa-fingerprint"
+        },
+        {
+          "name": "密码生成",
+          "path": "password_generation.html",
+          "icon": "fa-key"
+        },
+        {
+          "name": "HTML 预览",
+          "path": "html_preview.html",
+          "icon": "fa-file-code"
+        }
+      ]
+    },
+    {
+      "name": "图片工具",
+      "icon": "fa-image",
+      "tools": [
+        {
+          "name": "九宫格切图",
+          "path": "nine_grid.html",
+          "icon": "fa-th"
+        },
+        {
+          "name": "颜色选择器",
+          "path": "color_picker.html",
+          "icon": "fa-palette"
+        },
+        {
+          "name": "Emoji 选择",
+          "path": "emoji_picker.html",
+          "icon": "fa-smile"
+        },
+        {
+          "name": "精灵图选择",
+          "path": "sprite-selector.html",
+          "icon": "fa-object-group"
+        }
+      ]
+    },
+    {
+      "name": "设计工具",
+      "icon": "fa-pencil-ruler",
+      "tools": [
+        {
+          "name": "SVG 工作流",
+          "path": "svg_workflow_editor.html",
+          "icon": "fa-project-diagram"
+        },
+        {
+          "name": "字形施法者",
+          "path": "Glyph_Caster.html",
+          "icon": "fa-font"
+        }
+      ]
+    },
+    {
+      "name": "游戏娱乐",
+      "icon": "fa-gamepad",
+      "tools": [
+        {
+          "name": "数字华容道",
+          "path": "number_slide_puzzle.html",
+          "icon": "fa-puzzle-piece"
+        },
+        {
+          "name": "无尽防御",
+          "path": "InfiniteDefense.html",
+          "icon": "fa-shield-alt"
+        },
+        {
+          "name": "无尽射击",
+          "path": "InfiniteShooting.html",
+          "icon": "fa-crosshairs"
+        },
+        {
+          "name": "路径建筑师",
+          "path": "patharchitectgame.html",
+          "icon": "fa-road"
+        },
+        {
+          "name": "球体工程师",
+          "path": "Sphere_Engineer_new.html",
+          "icon": "fa-globe"
+        }
+      ]
+    }
+  ]
+}

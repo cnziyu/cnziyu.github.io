@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="免费在线JSON格式化工具，支持格式化、压缩、复制、折叠等功能，提供实时预览和语法高亮。纯前端实现，安全可靠，支持大文件处理。">
+    <meta name="keywords" content="JSON格式化,JSON压缩,JSON美化,JSON校验,JSON编辑器,在线工具,代码格式化,开发者工具">
+    <meta name="author" content="工具导航站">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
+    
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="JSON格式化工具 - 工具导航站">
+    <meta property="og:description" content="专业的在线JSON格式化工具，支持实时预览、语法高亮、压缩和美化功能，让JSON数据处理更轻松。">
+    <meta property="og:image" content="../tools.png">
+    <meta property="og:type" content="website">
+    
+    <!-- Additional SEO Tags -->
+    <meta name="application-name" content="工具导航站">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="canonical" href="https://your-domain.com/pages/json_formatter.html">
+    
+    <title>JSON格式化工具 - 工具导航站</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- 引入自定义CSS -->
+    <link rel="stylesheet" href="../styles/common.css">
+    <link rel="stylesheet" href="../styles/sidebar.css">
+    <link rel="stylesheet" href="../styles/json-formatter.css">
+    <!-- 引入JSON Viewer库 -->
+    <!-- CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsoneditor@9.5.6/dist/jsoneditor.min.css">
+
+    <!-- JS 文件 -->
+    <script src="https://cdn.jsdelivr.net/npm/jsoneditor@9.5.6/dist/jsoneditor.min.js"></script>
+    
+    <!-- Umami 统计脚本延迟加载器 -->
+    <script src="../scripts/umami-loader.js"></script>
+    <link href="../styles/json/json-style.css" rel="stylesheet">
+    <link rel="stylesheet"
+          href="../styles/json/font-awesome.min.css">
+    <script src="../scripts/json/jquery.min.js?v=2.1.1"></script>
+    <script src="../scripts/json/clipboard.min.js"></script>
+    <script src="../scripts/json/FileSaver.min.js"></script>
+    <script src="../scripts/json/jquery.json2xml.js"></script>
+    <style>
+ /* Reset and General Styles */
+body, h2, h3, p, ul, ol {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px; /* 控制最大宽度 */
+    width: 90%; /* 默认宽度为屏幕宽度的90% */
+    margin: auto; /* 水平居中 */
+    overflow: hidden;
+    padding: 20px 0; /* 增加上下的空间 */
+}
+
+/* Header Styles */
+header {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+header nav ul {
+    padding: 0;
+    list-style: none;
+}
+
+header nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+header nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+}
+
+/* Section Styles */
+section {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+}
+
+h2 {
+    background-color: #e7e7e7;
+    padding: 10px;
+    margin: -20px -20px 20px -20px;
+    border-bottom: 1px solid #ddd;
+}
+
+h3 {
+    margin-bottom: 10px;
+    color: #4CAF50;
+}
+
+p, ul, ol {
+    margin-bottom: 10px;
+    padding: 0 15px;
+}
+
+ul, ol {
+    padding-left: 20px;
+}
+
+/* JSON Tool Experience Section */
+
+#json-tool-experience {
+    height: 100vh; /* 保持最小高度为视口高度，确保足够的空间 */
+    padding: 20px; /* 添加一些内边距以防止内容溢出 */
+    //display: flex;
+    align-items: stretch; /* 确保子元素拉伸填满高度 */
+}
+
+.tool-container {
+    display: flex;
+    width: 100%; /* 确保 tool-container 占据整个区域宽度 */
+    //height: 92%; /* tool-container 高度自适应 */
+    height: calc(100% - 40px); /* 减去内边距 */
+    //gap: 20px;
+}
+
+.input-area, .output-area {
+    flex-basis: 50%; /* 每个区域分配50%的宽度 */
+    flex-grow: 0; /* 阻止根据内容扩张 */
+    flex-shrink: 0; /* 阻止根据内容收缩 */
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* 防止内容溢出 */
+}
+
+.input-area textarea, .output-area .formatted-json {
+    width: 98%;
+    height: 100%;
+    overflow: auto; /* 超出内容时显示滚动条 */
+    resize: none;
+    padding: 4px;
+    border: 1px solid #ccc;
+}
+
+/* Textarea and Formatted JSON Styles */
+.input-area textarea {
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+
+/* FAQ Section */
+#faq .faq-item {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 8px;
+}
+
+/* Mobile Responsiveness */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    #json-tool-experience {
+        height: auto; /* 移动设备上高度自适应 */
+        //padding: 10px; /* 在移动设备上减少内边距 */
+    }
+
+    header nav ul li {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .tool-container {
+        flex-direction: column; /* 在移动设备上堆叠这两个区域 */
+    }
+
+    .input-area, .output-area {
+        flex-basis: auto; /* 移动设备上自动调整宽度 */
+    }
+}
+
+
+/* Footer Styles */
+footer {
+    background-color: #4CAF50; /* 与 header 风格保持一致 */
+    color: #fff;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 30px; /* 在内容和 footer 之间添加一些空间 */
+    font-size: 0.9em;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+         <h1>JSON格式化工具</h1>
+    <!-- JSON Tool Experience Section -->
+    <section id="json-tool-experience">
+        <div class="tool-container">
+            <div class="input-area">
+                <textarea id="json-src" placeholder="Paste your JSON string here..."></textarea>
+            </div>
+            <div class="output-area">
+                <div class="formatted-json">
+                    <div class="tool">
+                        <a href="#" class="tip zip" title="" data-placement="bottom"
+                           data-original-title="zip" style="color:#999;"><i
+                                class="fa fa-database"></i></a>
+                        <a href="#" class="tip xml" title="" data-placement="bottom"
+                           data-original-title="convert to xml" style="color:#999;"><i class="fa fa-file-excel-o"></i></a>
+                        <!--                        <a href="#" class="tip shown" title="" data-placement="bottom"-->
+                        <!--                           data-original-title="show line numbers"><i class="fa fa-sort-amount-asc"></i></a>-->
+                        <a href="#" class="tip clear" title="" data-placement="bottom"
+                           data-original-title="clear"><i class="fa fa-trash"></i></a>
+                        <a href="#" class="tip save" title="" data-placement="bottom"
+                           data-original-title="save"><i class="fa fa-download"></i></a>
+                        <a href="#" class="tip copy" title="" data-clipboard-target="#json-target"
+                           data-placement="bottom" data-original-title="copy"><i class="fa fa-copy"></i></a>
+                        <a href="#" class="tip compress" title="" data-placement="bottom"
+                           data-original-title="compress"><i class="fa fa-compress"></i></a>
+                    </div>
+
+                    <!-- Formatted JSON Output will be shown here -->
+                    <p class="editor-tip">Click on key and value to edit</p>
+                    <div id="line-num">
+                    </div>
+                    <div id="json-target"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script src="../scripts/json/brain2.js"></script>
+    <!-- 引入自定义JS -->
+    <script src="../scripts/sidebar.js"></script>
+    <script src="../scripts/index.js"></script>
+    <script src="../scripts/json-formatter.js"></script>
+</body>
+</html> 

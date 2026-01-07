@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="免费在线加密解密工具，支持MD5、SHA、AES、DES、Base64、Hex等多种加密算法。纯前端实现，安全可靠，无需担心数据泄露。">
+    <meta name="keywords" content="加密解密,MD5,SHA256,AES加密,DES加密,Base64,在线工具,密码学,哈希算法">
+    <meta name="author" content="工具导航站">
+    <meta name="robots" content="index, follow">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/favicon/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon/favicon-16x16.png">
+
+    <!-- Open Graph / Social Media Meta Tags -->
+    <meta property="og:title" content="加密解密工具 - 工具导航站">
+    <meta property="og:description" content="免费在线加密解密工具，支持多种加密算法，快速方便的文本加解密工具。">
+    <meta property="og:image" content="../tools.png">
+    <meta property="og:url" content="https://your-domain.com/pages/crypto_tool.html">
+    <meta property="og:type" content="website">
+
+    <title>加密解密工具 - 工具导航站</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="../styles/common.css" />
+    <link rel="stylesheet" href="../styles/sidebar.css" />
+    <link rel="stylesheet" href="../styles/crypto_tool.css">
+
+    <!-- CryptoJS Library -->
+    <script src="https://cdn.bootcdn.net/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+    <!-- Umami 统计脚本延迟加载器 -->
+    <script src="../scripts/umami-loader.js"></script>
+</head>
+
+<body>
+    <!-- 侧边栏由 sidebar.js 动态加载 -->
+
+    <!-- 主内容 -->
+    <main>
+        <div class="tool-header">
+            <h1>🔐 加密解密工具</h1>
+            <p>支持多种加密算法，所有操作均在本地完成，数据安全有保障</p>
+        </div>
+
+        <div class="content-wrapper">
+            <!-- 左侧输入区域 -->
+            <div class="section input-section">
+                <h2>输入</h2>
+                <div class="option-group">
+                    <label for="input-text">明文 / 密文</label>
+                    <textarea id="input-text" placeholder="在此输入要加密或解密的内容..."></textarea>
+                </div>
+
+                <div class="options-row">
+                    <div class="option-group">
+                        <label for="algorithm-select">加密算法</label>
+                        <select id="algorithm-select">
+                            <optgroup label="哈希算法 (单向)">
+                                <option value="MD5">MD5</option>
+                                <option value="SHA1">SHA1</option>
+                                <option value="SHA256" selected>SHA256</option>
+                                <option value="SHA512">SHA512</option>
+                                <option value="SHA3-224">SHA3-224</option>
+                                <option value="SHA3-256">SHA3-256</option>
+                                <option value="SHA3-384">SHA3-384</option>
+                                <option value="SHA3-512">SHA3-512</option>
+                                <option value="RIPEMD160">RIPEMD160</option>
+                            </optgroup>
+                            <optgroup label="HMAC 算法">
+                                <option value="HmacMD5">HmacMD5</option>
+                                <option value="HmacSHA1">HmacSHA1</option>
+                                <option value="HmacSHA256">HmacSHA256</option>
+                                <option value="HmacSHA512">HmacSHA512</option>
+                            </optgroup>
+                            <optgroup label="对称加密 (可逆)">
+                                <option value="AES">AES</option>
+                                <option value="DES">DES</option>
+                                <option value="TripleDES">TripleDES</option>
+                                <option value="Rabbit">Rabbit</option>
+                                <option value="RC4">RC4</option>
+                                <option value="RC4Drop">RC4Drop</option>
+                            </optgroup>
+                            <optgroup label="编码转换">
+                                <option value="Base64">Base64</option>
+                                <option value="Hex">Hex</option>
+                                <option value="Utf8">Utf8</option>
+                                <option value="Utf16">Utf16</option>
+                                <option value="Utf16LE">Utf16LE</option>
+                                <option value="Latin1">Latin1</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="option-group">
+                        <label for="operation-select">操作类型</label>
+                        <select id="operation-select">
+                            <option value="encrypt">加密 / 编码</option>
+                            <option value="decrypt">解密 / 解码</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 密钥输入区域 (仅对称加密和HMAC需要) -->
+                <div class="option-group key-group" id="key-group" style="display: none;">
+                    <label for="secret-key">密钥 (Key)</label>
+                    <input type="text" id="secret-key" placeholder="请输入密钥...">
+                </div>
+
+                <div class="button-group">
+                    <button id="execute-btn" class="primary-btn">执行</button>
+                    <button id="all-encrypt-btn" class="secondary-btn">一键全部加密</button>
+                    <button id="clear-btn" class="secondary-btn">清空</button>
+                </div>
+            </div>
+
+            <!-- 右侧输出区域 -->
+            <div class="section output-section">
+                <h2>输出</h2>
+                <div class="option-group">
+                    <label for="output-text">结果</label>
+                    <textarea id="output-text" placeholder="加密/解密结果将在此显示..." readonly></textarea>
+                </div>
+
+                <!-- ALL模式输出 -->
+                <div id="all-results" class="all-results" style="display: none;">
+                    <h3>全部算法结果</h3>
+                    <div id="all-results-content"></div>
+                </div>
+
+                <div class="button-group">
+                    <button id="copy-btn" class="primary-btn">复制结果</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 算法说明 -->
+        <div class="section info-section">
+            <h2>📖 算法说明</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <h4>哈希算法</h4>
+                    <p>MD5、SHA系列等为单向哈希，不可逆，常用于数据完整性校验和密码存储。</p>
+                </div>
+                <div class="info-item">
+                    <h4>HMAC算法</h4>
+                    <p>基于哈希的消息认证码，需要密钥，用于验证消息完整性和身份认证。</p>
+                </div>
+                <div class="info-item">
+                    <h4>对称加密</h4>
+                    <p>AES、DES等可逆加密，加解密使用相同密钥，适合数据加密传输。</p>
+                </div>
+                <div class="info-item">
+                    <h4>编码转换</h4>
+                    <p>Base64、Hex等为编码方式，非加密，用于数据格式转换。</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../scripts/sidebar.js"></script>
+    <script src="../scripts/index.js"></script>
+    <script src="../scripts/crypto_tool.js"></script>
+</body>
+
+</html>

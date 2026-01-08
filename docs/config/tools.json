@@ -7,7 +7,7 @@
       "tools": [
         {
           "name": "JSON 格式化",
-          "path": "json_formatter.html",
+          "path": "json_formatter_new.html",
           "icon": "fa-brackets-curly"
         },
         {
